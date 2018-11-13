@@ -1,12 +1,11 @@
-// the schema will tell us how to interact with the graph
-const _ = require('lodash');
-
+// the schema laid out in this file will tell us how to interact with the graph
+const _ = require('lodash'); // lodash provides some convenient (but slow) helper functions
 const graphql = require('graphql');
 const {GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID, GraphQLInt, GraphQLList} = graphql;
 
 const BookType = new GraphQLObjectType({
     name: 'Book',
-    // fields get wrapped in function, bc if they execute immediately you get a catch-22 type error (bc the different types refer to each other)
+    // fields get wrapped in function, bc if they execute immediately you get sort of a catch-22 error (bc the different types refer to each other)
     fields: () => ({
         id: {type: GraphQLID},
         name: {type: GraphQLString},
@@ -28,14 +27,14 @@ const AuthorType = new GraphQLObjectType({
         age: {type: GraphQLInt},
         books: {
             type: new GraphQLList(BookType),
-            resolve(parent,args) {
+            resolve(parent, args) {
                 return _.filter(books, {authorId: parent.id})
             }
         }
     })
 });
 
-// dummy data
+// dummy data -- will be moved to db later
 let books = [
     {name: 'Name of the Wind', genre: 'Fantasy', id: '1', authorId: '1'},
     {name: 'The Final Empire', genre: 'Fantasy', id: '2', authorId: '2'},
@@ -65,13 +64,13 @@ const RootQuery = new GraphQLObjectType({
         author: {
             type: AuthorType,
             args: {id: {type: GraphQLID}},
-            resolve(parent,args){
+            resolve(parent, args){
                 return _.find(authors, {id: args.id})
             }
         },
         books: {
             type: new GraphQLList(BookType),
-            resolve(parents,args){
+            resolve(parent, args){
                 return books;
             }
         }
