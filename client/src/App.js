@@ -7,7 +7,7 @@ import {ApolloProvider} from 'react-apollo'
 
 // apollo client setup
 const client = new ApolloClient({
-  uri: 'http://localhost:9000/graphql'
+  uri: 'https://mern-graphql-practice.herokuapp.com/graphql'
 })
 
 class App extends Component {
