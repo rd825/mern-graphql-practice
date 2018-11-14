@@ -10,8 +10,8 @@ class BookDetails extends Component {
             return(
                 <div>
                     <h2>{book.name}</h2>
-                    <p>{book.genre}</p>
-                    <p>{book.author.name}</p>
+                    <p><span className='bold'>Genre:</span> {book.genre}</p>
+                    <p><span className='bold'>Author:</span> {book.author.name}</p>
                     <p>All books by this author:</p>
                     <ul className='other-books'>
                         {book.author.books.map(item => {
